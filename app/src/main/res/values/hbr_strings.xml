@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hbr_app_name">HBR CORE</string>
+    <string name="hbr_tagline">Private encrypted messenger</string>
+    <string name="hbr_secure_communication">Secure communication</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="hbr_background">#050909</color>
+    <color name="hbr_background_deep">#020404</color>
+    <color name="hbr_surface">#101817</color>
+    <color name="hbr_surface_high">#172321</color>
+    <color name="hbr_accent">#00D8B4</color>
+    <color name="hbr_accent_bright">#25F2D0</color>
+    <color name="hbr_accent_dark">#007B68</color>
+    <color name="hbr_text_primary">#E8F2EF</color>
+    <color name="hbr_text_secondary">#93A9A4</color>
+    <color name="hbr_divider">#243431</color>
+    <color name="hbr_error">#D75A61</color>
+</resources>
