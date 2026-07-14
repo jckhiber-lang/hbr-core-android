@@ -51,8 +51,8 @@
   <string name="screen_onboarding_sign_in_with_qr_code">"Войти с QR-кодом"</string>
   <string name="screen_onboarding_sign_up">"Создать аккаунт"</string>
   <string name="screen_onboarding_welcome_back">"С возвращением"</string>
-    <string name="screen_onboarding_welcome_message">Добро пожаловать в HBR CORE.</string>
-    <string name="screen_onboarding_welcome_subtitle">Защищённое общение на вашем частном сервере.</string>
+    <string name="screen_onboarding_welcome_message">Безопасные сообщения, звонки и обмен файлами в HBR CORE.</string>
+    <string name="screen_onboarding_welcome_subtitle">Защищённый мессенджер на вашем частном сервере.</string>
     <string name="screen_onboarding_welcome_title">HBR CORE</string>
   <string name="screen_qr_code_login_connecting_subtitle">"Установление безопасного соединения"</string>
   <string name="screen_qr_code_login_connection_note_secure_state_description">"Не удалось установить безопасное соединение с новым устройством. Не беспокойтесь, существующие устройства в безопасности."</string>

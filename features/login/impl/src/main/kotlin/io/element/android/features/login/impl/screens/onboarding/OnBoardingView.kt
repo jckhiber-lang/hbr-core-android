@@ -127,7 +127,7 @@ private fun AddFirstAccountScaffold(
 ) {
     OnBoardingPage(
         modifier = modifier,
-        renderBackground = state.onBoardingLogoResId == null,
+        renderBackground = true,
         content = {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -136,6 +136,36 @@ private fun AddFirstAccountScaffold(
                     OnBoardingLogo(
                         onBoardingLogoResId = state.onBoardingLogoResId,
                     )
+                    Column(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .padding(
+                                start = 32.dp,
+                                end = 32.dp,
+                                top = 180.dp,
+                            ),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Text(
+                            text = stringResource(
+                                id = R.string.screen_onboarding_welcome_title,
+                            ),
+                            color = ElementTheme.colors.textPrimary,
+                            style = ElementTheme.typography.fontHeadingLgBold,
+                            textAlign = TextAlign.Center,
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = stringResource(
+                                id = R.string.screen_onboarding_welcome_subtitle,
+                            ),
+                            color = ElementTheme.colors.textSecondary,
+                            style = ElementTheme.typography.fontBodyLgRegular.copy(
+                                fontSize = 17.sp,
+                            ),
+                            textAlign = TextAlign.Center,
+                        )
+                    }
                 } else {
                     OnBoardingContent(state = state)
                 }
