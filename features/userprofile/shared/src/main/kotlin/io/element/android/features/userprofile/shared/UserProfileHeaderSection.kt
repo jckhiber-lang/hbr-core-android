@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -69,7 +69,8 @@ fun UserProfileHeaderSection(
             avatarType = AvatarType.User,
             contentDescription = stringResource(CommonStrings.a11y_user_avatar),
             modifier = Modifier
-                .clip(CircleShape)
+                // HBR CORE: squircle profile avatar interaction
+                .clip(RoundedCornerShape(24))
                 .clickable(
                     enabled = avatarUrl != null,
                     onClickLabel = stringResource(CommonStrings.action_view),

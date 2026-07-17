@@ -45,7 +45,8 @@ fun TimelineItemReactionsLayout(
     itemSpacing: Dp = 6.dp,
     rowSpacing: Dp = 6.dp,
     expanded: Boolean = false,
-    rowsBeforeCollapsible: Int? = 2,
+    // HBR CORE: one-row compact reactions
+    rowsBeforeCollapsible: Int? = 1,
     reactions: @Composable () -> Unit,
 ) {
     SubcomposeLayout(modifier) { constraints ->

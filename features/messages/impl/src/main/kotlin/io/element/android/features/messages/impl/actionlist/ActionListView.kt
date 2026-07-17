@@ -389,8 +389,8 @@ private fun EmojiReactionsRow(
                         size = Size(gradientWidth, size.height)
                     )
                 },
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(horizontal = 12.dp),
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             items(recentEmojis) { emoji ->
                 val isHighlighted = highlightedEmojis.contains(emoji)
@@ -420,7 +420,7 @@ private fun EmojiReactionsRow(
                     .clickable(
                         enabled = true,
                         onClick = onCustomReactionClick,
-                        indication = ripple(bounded = false, radius = emojiRippleRadius),
+                        indication = ripple(bounded = true, radius = emojiRippleRadius),
                         interactionSource = remember { MutableInteractionSource() }
                     )
                     // Make it appear after the more useful actions for the accessibility service
@@ -477,10 +477,16 @@ private fun EmojiButton(
     onClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    // HBR CORE: calm compact reaction controls
     val backgroundColor = if (isHighlighted) {
-        ElementTheme.colors.bgActionPrimaryRest
+        ElementTheme.colors.bgSubtlePrimary
     } else {
         Color.Transparent
+    }
+    val borderColor = if (isHighlighted) {
+        ElementTheme.colors.iconSuccessPrimary
+    } else {
+        ElementTheme.colors.borderDisabled
     }
     val emojiShape = RoundedCornerShape(14.dp)
     val a11yClickLabel = a11yReactionAction(
@@ -489,18 +495,18 @@ private fun EmojiButton(
     )
     Box(
         modifier = modifier
-            .size(48.dp)
+            .size(44.dp)
             .clip(emojiShape)
             .background(backgroundColor)
             .border(
                 width = 1.dp,
-                color = ElementTheme.colors.borderDisabled,
+                color = borderColor,
                 shape = emojiShape,
             )
             .clickable(
                 onClickLabel = a11yClickLabel,
                 onClick = { onClick(emoji) },
-                indication = ripple(bounded = false, radius = emojiRippleRadius),
+                indication = ripple(bounded = true, radius = emojiRippleRadius),
                 interactionSource = remember { MutableInteractionSource() }
             ),
         contentAlignment = Alignment.Center

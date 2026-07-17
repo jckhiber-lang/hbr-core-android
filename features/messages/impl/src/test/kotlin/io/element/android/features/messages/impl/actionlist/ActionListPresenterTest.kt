@@ -56,7 +56,8 @@ class ActionListPresenterTest {
     @get:Rule
     val warmUpRule = WarmUpRule()
 
-    private val suggestedEmojis = persistentListOf("👍️", "👎️", "🔥", "❤️", "👏")
+    // HBR CORE: compact three quick reactions test
+    private val suggestedEmojis = persistentListOf("⚡", "🖤", "✅")
 
     @Test
     fun `present - initial state`() = runTest {

@@ -23,7 +23,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -88,13 +88,16 @@ fun AvatarPickerView(
 ) {
     val a11yAvatar = stringResource(CommonStrings.a11y_avatar)
     val interactionSource = remember { MutableInteractionSource() }
+    val avatarClickShape = RoundedCornerShape(24)
     val clickableModifier = Modifier
+        // HBR CORE: bounded squircle avatar interaction
+        .clip(avatarClickShape)
         .clickable(
             enabled = enabled,
             interactionSource = interactionSource,
             onClickLabel = onClickLabel,
             onClick = onClick,
-            indication = ripple(bounded = false),
+            indication = ripple(bounded = true),
         )
         .testTag(TestTags.editAvatar)
         .clearAndSetSemantics {
