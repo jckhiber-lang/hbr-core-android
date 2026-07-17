@@ -29,7 +29,8 @@ fun SemanticColors.toHbrCoreDarkColors(): SemanticColors = copy(
     bgAccentSelected = HbrCoreColors.EmeraldDeep,
 
     // Technical borders
-    borderDefault = HbrCoreColors.Border,
+    separatorPrimary = HbrCoreColors.Border,
+    separatorSecondary = HbrCoreColors.BorderSoft,
     borderDisabled = HbrCoreColors.BorderSoft,
     borderFocused = HbrCoreColors.BorderActive,
     borderInteractivePrimary = HbrCoreColors.Emerald,
