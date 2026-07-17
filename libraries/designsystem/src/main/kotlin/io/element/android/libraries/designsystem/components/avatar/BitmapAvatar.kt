@@ -15,7 +15,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImagePainter
 import coil3.compose.SubcomposeAsyncImage
 import coil3.compose.SubcomposeAsyncImageContent
@@ -36,7 +38,11 @@ fun BitmapAvatar(
             avatarData = avatarData,
             avatarShape = avatarShape,
             forcedAvatarSize = null,
-            modifier = modifier,
+            modifier = modifier.shadow(
+                elevation = 2.dp,
+                shape = avatarShape,
+                clip = false,
+            ),
             contentDescription = contentDescription,
         )
         else -> {
@@ -47,6 +53,11 @@ fun BitmapAvatar(
                 contentScale = ContentScale.Crop,
                 modifier = modifier
                     .size(size)
+                    .shadow(
+                        elevation = 2.dp,
+                        shape = avatarShape,
+                        clip = false,
+                    )
                     .clip(avatarShape)
             ) {
                 val collectedState by painter.state.collectAsState()

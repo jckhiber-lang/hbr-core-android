@@ -8,17 +8,16 @@
 
 package io.element.android.libraries.designsystem.components.avatar
 
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 
 @Composable
-fun AvatarType.User.avatarShape() = CircleShape
+fun AvatarType.User.avatarShape() = RoundedCornerShape(24)
 
 @Composable
-fun AvatarType.Room.avatarShape() = CircleShape
+fun AvatarType.Room.avatarShape() = RoundedCornerShape(24)
 
 @Composable
 fun AvatarType.Space.avatarShape(avatarSize: Dp) = RoundedCornerShape(avatarSize * 0.25f)
