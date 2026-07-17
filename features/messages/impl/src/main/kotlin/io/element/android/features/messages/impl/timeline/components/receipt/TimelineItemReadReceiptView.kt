@@ -55,73 +55,59 @@ fun TimelineItemReadReceiptView(
     onReadReceiptsClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    // HBR CORE: compact outgoing message status
-    if (state.receipts.isNotEmpty()) {
-        ReadReceiptsRow(
-            modifier = modifier.clearAndSetSemantics {
-                hideFromAccessibility()
-            }
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
+    // HBR CORE: stable compact message status
+    when {
+        state.receipts.isNotEmpty() -> {
+            val receiptDescription = computeReceiptDescription(state.receipts)
+            ReadReceiptsRow(
+                modifier = modifier.clearAndSetSemantics {
+                    contentDescription = receiptDescription
+                }
             ) {
                 Text(
-                    text = "✓✓",
-                    style = ElementTheme.typography.fontBodyXsRegular,
-                    color = ElementTheme.colors.iconSuccessPrimary,
-                )
-                ReadReceiptsAvatars(
-                    receipts = state.receipts,
                     modifier = Modifier
                         .clip(RoundedCornerShape(6.dp))
                         .clickable {
                             onReadReceiptsClick()
                         }
-                        .padding(2.dp)
+                        .padding(horizontal = 4.dp, vertical = 2.dp),
+                    text = "✓✓",
+                    style = ElementTheme.typography.fontBodyXsRegular,
+                    color = ElementTheme.colors.iconSuccessPrimary,
                 )
             }
         }
-    } else {
-        when (state.sendState) {
-            is LocalEventSendState.Sending -> {
-                if (state.isLastOutgoingMessage) {
-                    ReadReceiptsRow(modifier) {
-                        Icon(
-                            modifier = Modifier.padding(2.dp),
-                            imageVector = CompoundIcons.Circle(),
-                            contentDescription = stringResource(id = CommonStrings.common_sending),
-                            tint = ElementTheme.colors.iconSecondary
-                        )
-                    }
-                }
-            }
 
-            is LocalEventSendState.Failed -> {
-                if (state.isLastOutgoingMessage) {
-                    ReadReceiptsRow(modifier) {
-                        Icon(
-                            modifier = Modifier.padding(2.dp),
-                            imageVector = CompoundIcons.ErrorSolid(),
-                            contentDescription = null,
-                            tint = ElementTheme.colors.iconCriticalPrimary,
-                        )
-                    }
-                }
+        state.sendState is LocalEventSendState.Sending && state.isLastOutgoingMessage -> {
+            ReadReceiptsRow(modifier) {
+                Icon(
+                    modifier = Modifier.padding(2.dp),
+                    imageVector = CompoundIcons.Circle(),
+                    contentDescription = stringResource(id = CommonStrings.common_sending),
+                    tint = ElementTheme.colors.iconSecondary,
+                )
             }
+        }
 
-            null,
-            is LocalEventSendState.Sent -> {
-                if (state.isLastOutgoingMessage) {
-                    ReadReceiptsRow(modifier = modifier) {
-                        Text(
-                            modifier = Modifier.padding(2.dp),
-                            text = "✓",
-                            style = ElementTheme.typography.fontBodyXsRegular,
-                            color = ElementTheme.colors.iconSecondary,
-                        )
-                    }
-                }
+        state.sendState is LocalEventSendState.Failed && state.isLastOutgoingMessage -> {
+            ReadReceiptsRow(modifier) {
+                Icon(
+                    modifier = Modifier.padding(2.dp),
+                    imageVector = CompoundIcons.ErrorSolid(),
+                    contentDescription = null,
+                    tint = ElementTheme.colors.iconCriticalPrimary,
+                )
+            }
+        }
+
+        state.sendState is LocalEventSendState.Sent -> {
+            ReadReceiptsRow(modifier) {
+                Text(
+                    modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
+                    text = "✓",
+                    style = ElementTheme.typography.fontBodyXsRegular,
+                    color = ElementTheme.colors.iconSecondary,
+                )
             }
         }
     }
@@ -132,11 +118,12 @@ private fun ReadReceiptsRow(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit = {},
 ) {
+    // HBR CORE: compact status row
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(AvatarSize.TimelineReadReceipt.dp + 8.dp)
-            .padding(horizontal = 18.dp),
+            .height(20.dp)
+            .padding(horizontal = 14.dp),
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
     ) {
