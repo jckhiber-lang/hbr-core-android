@@ -47,6 +47,8 @@ import io.element.android.compound.theme.ElementTheme
 import io.element.android.compound.tokens.generated.CompoundIcons
 import io.element.android.libraries.designsystem.preview.ElementThemedPreview
 import io.element.android.libraries.designsystem.preview.PreviewGroup
+import io.element.android.libraries.designsystem.theme.hbr.HbrCoreColors
+import io.element.android.libraries.designsystem.theme.hbr.HbrCoreDimensions
 
 // Designs: https://www.figma.com/file/G1xy0HDZKJf5TCRFmKb5d5/Compound-Android-Components?type=design&mode=design&t=U03tOFZz5FSLVUMa-1
 
@@ -183,7 +185,9 @@ private fun ButtonInternal(
 
     val shape = when (style) {
         ButtonStyle.Filled,
-        ButtonStyle.Outlined -> RoundedCornerShape(percent = 50)
+            ButtonStyle.Outlined -> RoundedCornerShape(
+                HbrCoreDimensions.ButtonCornerRadius
+            )
         ButtonStyle.Text -> RectangleShape
     }
 
@@ -296,7 +300,11 @@ internal enum class ButtonStyle {
     fun getColors(destructive: Boolean): ButtonColors = when (this) {
         Filled -> ButtonDefaults.buttonColors(
             containerColor = getPrimaryColor(destructive),
-            contentColor = ElementTheme.materialColors.onPrimary,
+            contentColor = if (destructive) {
+                    ElementTheme.materialColors.onPrimary
+                } else {
+                    HbrCoreColors.TextOnEmerald
+                },
             disabledContainerColor = if (destructive) {
                 ElementTheme.colors.bgCriticalPrimary.copy(alpha = 0.5f)
             } else {
@@ -327,7 +335,7 @@ internal enum class ButtonStyle {
         return if (destructive) {
             ElementTheme.colors.bgCriticalPrimary
         } else {
-            ElementTheme.materialColors.primary
+            HbrCoreColors.Emerald
         }
     }
 
