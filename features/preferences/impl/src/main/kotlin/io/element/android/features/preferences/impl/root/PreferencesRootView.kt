@@ -243,7 +243,8 @@ private fun ColumnScope.GeneralSection(
         leadingContent = ListItemContent.Icon(IconSource.Vector(CompoundIcons.Settings())),
         onClick = onOpenAdvancedSettings,
     )
-    if (state.showLabsItem) {
+    // HBR CORE: technical settings stay behind secret developer unlock
+    if (state.showLabsItem && state.showDeveloperSettings) {
         ListItem(
             headlineContent = { Text(stringResource(id = R.string.screen_labs_title)) },
             leadingContent = ListItemContent.Icon(IconSource.Vector(CompoundIcons.Labs())),
@@ -262,7 +263,7 @@ private fun ColumnScope.GeneralSection(
             onClick = onOpenRageShake
         )
     }
-    if (state.showAnalyticsSettings) {
+    if (state.showAnalyticsSettings && state.showDeveloperSettings) {
         ListItem(
             headlineContent = { Text(stringResource(id = CommonStrings.common_analytics)) },
             leadingContent = ListItemContent.Icon(IconSource.Vector(CompoundIcons.Chart())),

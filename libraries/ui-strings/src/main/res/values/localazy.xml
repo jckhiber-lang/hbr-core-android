@@ -199,7 +199,7 @@
   <string name="action_video_call">"Video call"</string>
   <string name="action_view">"View"</string>
   <string name="action_view_in_timeline">"View in timeline"</string>
-  <string name="action_view_source">"View source"</string>
+  <string name="action_view_source">"Message technical details"</string>
   <string name="action_voice_call">"Voice call"</string>
   <string name="action_yes">"Yes"</string>
   <string name="action_yes_try_again">"Yes, try again"</string>

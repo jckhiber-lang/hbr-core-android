@@ -13,6 +13,7 @@ import androidx.annotation.VisibleForTesting
 class TimelineItemActionComparator : Comparator<TimelineItemAction> {
     // See order in https://www.figma.com/design/ux3tYoZV9WghC7hHT9Fhk0/Compound-iOS-Components?node-id=2946-2392
     @VisibleForTesting
+    // HBR CORE: user actions first, secondary and technical actions last
     val orderedList = listOf(
         TimelineItemAction.EndPoll,
         TimelineItemAction.ViewInTimeline,
@@ -23,14 +24,14 @@ class TimelineItemActionComparator : Comparator<TimelineItemAction> {
         TimelineItemAction.EditPoll,
         TimelineItemAction.AddCaption,
         TimelineItemAction.EditCaption,
-        TimelineItemAction.CopyLink,
         TimelineItemAction.Pin,
         TimelineItemAction.Unpin,
         TimelineItemAction.CopyText,
         TimelineItemAction.CopyCaption,
         TimelineItemAction.RemoveCaption,
-        TimelineItemAction.ViewSource,
+        TimelineItemAction.CopyLink,
         TimelineItemAction.ReportContent,
+        TimelineItemAction.ViewSource,
         TimelineItemAction.Redact,
     )
 
