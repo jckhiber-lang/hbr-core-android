@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -56,46 +55,70 @@ fun TimelineItemReadReceiptView(
     onReadReceiptsClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    // HBR CORE: compact outgoing message status
     if (state.receipts.isNotEmpty()) {
         ReadReceiptsRow(
             modifier = modifier.clearAndSetSemantics {
                 hideFromAccessibility()
             }
         ) {
-            ReadReceiptsAvatars(
-                receipts = state.receipts,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(4.dp))
-                    .clickable {
-                        onReadReceiptsClick()
-                    }
-                    .padding(2.dp)
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                Text(
+                    text = "✓✓",
+                    style = ElementTheme.typography.fontBodyXsRegular,
+                    color = ElementTheme.colors.iconSuccessPrimary,
+                )
+                ReadReceiptsAvatars(
+                    receipts = state.receipts,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(6.dp))
+                        .clickable {
+                            onReadReceiptsClick()
+                        }
+                        .padding(2.dp)
+                )
+            }
         }
     } else {
         when (state.sendState) {
             is LocalEventSendState.Sending -> {
-                ReadReceiptsRow(modifier) {
-                    Icon(
-                        modifier = Modifier.padding(2.dp),
-                        imageVector = CompoundIcons.Circle(),
-                        contentDescription = stringResource(id = CommonStrings.common_sending),
-                        tint = ElementTheme.colors.iconSecondary
-                    )
+                if (state.isLastOutgoingMessage) {
+                    ReadReceiptsRow(modifier) {
+                        Icon(
+                            modifier = Modifier.padding(2.dp),
+                            imageVector = CompoundIcons.Circle(),
+                            contentDescription = stringResource(id = CommonStrings.common_sending),
+                            tint = ElementTheme.colors.iconSecondary
+                        )
+                    }
                 }
             }
+
             is LocalEventSendState.Failed -> {
-                // Error? The timestamp is already displayed in red
+                if (state.isLastOutgoingMessage) {
+                    ReadReceiptsRow(modifier) {
+                        Icon(
+                            modifier = Modifier.padding(2.dp),
+                            imageVector = CompoundIcons.ErrorSolid(),
+                            contentDescription = null,
+                            tint = ElementTheme.colors.iconCriticalPrimary,
+                        )
+                    }
+                }
             }
+
             null,
             is LocalEventSendState.Sent -> {
                 if (state.isLastOutgoingMessage) {
                     ReadReceiptsRow(modifier = modifier) {
-                        Icon(
+                        Text(
                             modifier = Modifier.padding(2.dp),
-                            imageVector = CompoundIcons.CheckCircle(),
-                            contentDescription = stringResource(id = CommonStrings.common_sent),
-                            tint = ElementTheme.colors.iconSecondary
+                            text = "✓",
+                            style = ElementTheme.typography.fontBodyXsRegular,
+                            color = ElementTheme.colors.iconSecondary,
                         )
                     }
                 }
@@ -155,7 +178,7 @@ private fun ReadReceiptsAvatars(
                         modifier = Modifier
                             .padding(end = (12.dp + avatarStrokeSize * 2) * index)
                             .size(size = avatarSize + avatarStrokeSize * 2)
-                            .clip(CircleShape)
+                            .clip(RoundedCornerShape(4.dp))
                             .background(avatarStrokeColor)
                             .zIndex(index.toFloat()),
                         contentAlignment = Alignment.Center,
