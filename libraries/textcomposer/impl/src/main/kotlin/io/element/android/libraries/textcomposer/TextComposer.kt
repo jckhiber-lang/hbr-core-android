@@ -27,7 +27,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -499,13 +499,19 @@ private fun StandardLayout(
                         if (voiceMessageState is VoiceMessageState.Idle) {
                             Icon(
                                 modifier = Modifier
-                                    .clip(CircleShape)
+                                    // HBR CORE: quiet squircle attachment button
+                                    .clip(RoundedCornerShape(10.dp))
                                     .size(30.dp)
-                                    .background(ElementTheme.colors.iconPrimary)
-                                    .padding(3.dp),
+                                    .background(ElementTheme.colors.bgSubtlePrimary)
+                                    .border(
+                                        width = 1.dp,
+                                        color = ElementTheme.colors.borderInteractiveSecondary,
+                                        shape = RoundedCornerShape(10.dp),
+                                    )
+                                    .padding(4.dp),
                                 imageVector = CompoundIcons.Plus(),
                                 contentDescription = stringResource(R.string.rich_text_editor_a11y_add_attachment),
-                                tint = ElementTheme.colors.iconOnSolidPrimary
+                                tint = ElementTheme.colors.iconSuccessPrimary
                             )
                         } else {
                             when (voiceMessageState) {

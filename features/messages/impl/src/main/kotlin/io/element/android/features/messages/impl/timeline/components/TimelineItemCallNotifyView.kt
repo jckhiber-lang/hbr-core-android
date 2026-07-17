@@ -60,9 +60,10 @@ internal fun TimelineItemCallNotifyView(
     Column(modifier = modifier) {
         Row(
             modifier = Modifier
+                // HBR CORE: compact call event row
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp)
-                .border(1.dp, ElementTheme.colors.borderInteractiveSecondary, RoundedCornerShape(8.dp))
+                .padding(horizontal = 16.dp, vertical = 4.dp)
+                .border(1.dp, ElementTheme.colors.borderDisabled, RoundedCornerShape(10.dp))
                 .combinedClickable(
                     enabled = true,
                     onClick = {},
@@ -70,12 +71,12 @@ internal fun TimelineItemCallNotifyView(
                     onLongClickLabel = stringResource(CommonStrings.action_open_context_menu),
                 )
                 .onKeyboardContextMenuAction { onLongClick(event) }
-                .padding(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                .padding(horizontal = 10.dp, vertical = 7.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
-                modifier = Modifier.size(20.sp.toDp()),
+                modifier = Modifier.size(18.sp.toDp()),
                 imageVector = getIcon(timelineRoomInfo, content),
                 contentDescription = null,
                 tint = ElementTheme.colors.iconSecondary,
@@ -84,7 +85,7 @@ internal fun TimelineItemCallNotifyView(
             Text(
                 modifier = Modifier.weight(1f),
                 text = stringResource(getTextRes(timelineRoomInfo, content)),
-                style = ElementTheme.typography.fontBodyMdRegular,
+                style = ElementTheme.typography.fontBodySmRegular,
                 color = ElementTheme.colors.textSecondary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -92,7 +93,7 @@ internal fun TimelineItemCallNotifyView(
 
             Text(
                 text = event.sentTime,
-                style = ElementTheme.typography.fontBodyMdRegular,
+                style = ElementTheme.typography.fontBodySmRegular,
                 color = ElementTheme.colors.textSecondary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -106,7 +107,7 @@ internal fun TimelineItemCallNotifyView(
                 receipts = event.readReceiptState.receipts,
             ),
             onReadReceiptsClick = { onReadReceiptsClick(event) },
-            modifier = Modifier.padding(top = 4.dp),
+            modifier = Modifier.padding(top = 2.dp),
         )
     }
 }

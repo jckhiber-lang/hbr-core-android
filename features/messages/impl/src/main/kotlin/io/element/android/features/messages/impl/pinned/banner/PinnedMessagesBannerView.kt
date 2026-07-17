@@ -88,10 +88,11 @@ private fun PinnedMessagesBannerRow(
     val borderColor = ElementTheme.colors.pinnedMessageBannerBorder
     Row(
         modifier = modifier
+            // HBR CORE: compact pinned message banner
             .background(color = ElementTheme.colors.bgCanvasDefault)
             .fillMaxWidth()
             .drawBorder(borderColor)
-            .heightIn(min = 64.dp)
+            .heightIn(min = 48.dp)
             .clickable {
                 if (state is PinnedMessagesBannerState.Loaded) {
                     analyticsService.captureInteraction(Interaction.Name.PinnedMessageBannerClick)
@@ -101,7 +102,7 @@ private fun PinnedMessagesBannerRow(
             },
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Spacer(modifier = Modifier.width(26.dp))
+        Spacer(modifier = Modifier.width(12.dp))
         PinIndicators(
             pinIndex = state.currentPinnedMessageIndex(),
             pinsCount = state.pinnedMessagesCount(),
@@ -111,8 +112,8 @@ private fun PinnedMessagesBannerRow(
             contentDescription = null,
             tint = ElementTheme.colors.iconSecondary,
             modifier = Modifier
-                .padding(horizontal = 10.dp)
-                .size(20.dp)
+                .padding(horizontal = 6.dp)
+                .size(18.dp)
         )
         PinnedMessageItem(
             index = state.currentPinnedMessageIndex(),
@@ -137,7 +138,7 @@ private fun ViewAllButton(
     modifier: Modifier = Modifier,
 ) {
     val text = if (state is PinnedMessagesBannerState.Loaded) {
-        stringResource(id = CommonStrings.screen_room_pinned_banner_view_all_button_title)
+        "›"
     } else {
         ""
     }
@@ -167,7 +168,7 @@ private fun Modifier.drawBorder(borderColor: Color): Modifier {
                 strokeWidth
             )
         }
-        .shadow(elevation = 5.dp, spotColor = Color.Transparent)
+        .shadow(elevation = 2.dp, spotColor = Color.Transparent)
 }
 
 @Composable
@@ -231,23 +232,27 @@ private fun PinnedMessageItem(
     message: AnnotatedString?,
     modifier: Modifier = Modifier,
 ) {
-    val countMessage = stringResource(id = CommonStrings.screen_room_pinned_banner_indicator, index + 1, totalCount)
-    val fullCountMessage = stringResource(id = CommonStrings.screen_room_pinned_banner_indicator_description, countMessage)
-    Column(modifier = modifier) {
-        AnimatedVisibility(totalCount > 1) {
+    val countMessage = stringResource(
+        id = CommonStrings.screen_room_pinned_banner_indicator,
+        index + 1,
+        totalCount,
+    )
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = spacedBy(6.dp),
+    ) {
+        if (totalCount > 1) {
             Text(
-                text = annotatedTextWithBold(
-                    text = fullCountMessage,
-                    boldText = countMessage,
-                ),
+                text = countMessage,
                 style = ElementTheme.typography.fontBodySmMedium,
                 color = ElementTheme.colors.textActionAccent,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
             )
         }
         if (message != null) {
             Text(
+                modifier = Modifier.weight(1f),
                 text = message,
                 style = ElementTheme.typography.fontBodyMdRegular,
                 color = ElementTheme.colors.textPrimary,

@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
@@ -170,11 +171,13 @@ private fun PickButton(
     @DrawableRes iconId: Int,
     modifier: Modifier = Modifier,
 ) {
+    val pickShape = RoundedCornerShape(24)
     Box(
         modifier = modifier
+            // HBR CORE: squircle avatar picker controls
             .size(buttonSize)
-            .clip(CircleShape)
-            .border(BorderStroke(1.dp, ElementTheme.colors.borderInteractiveSecondary), shape = CircleShape)
+            .clip(pickShape)
+            .border(BorderStroke(1.dp, ElementTheme.colors.borderInteractiveSecondary), shape = pickShape)
     ) {
         Icon(
             resourceId = iconId,

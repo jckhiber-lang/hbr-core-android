@@ -73,8 +73,9 @@ private fun TimelineItemAttachmentHeaderView(
     onContentLayoutChange: (ContentAvoidingLayoutData) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val iconSize = 36.dp
-    val spacing = 8.dp
+    // HBR CORE: compact file attachment card
+    val iconSize = 32.dp
+    val spacing = 7.dp
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
@@ -83,14 +84,14 @@ private fun TimelineItemAttachmentHeaderView(
         Box(
             modifier = Modifier
                 .size(iconSize)
-                .background(ElementTheme.colors.bgCanvasDefault, RoundedCornerShape(4.dp)),
+                .background(ElementTheme.colors.bgCanvasDefault, RoundedCornerShape(8.dp)),
             contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = iconContentDescription,
                 tint = ElementTheme.colors.iconPrimary,
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier.size(20.dp),
             )
         }
         Column {
@@ -98,13 +99,13 @@ private fun TimelineItemAttachmentHeaderView(
                 text = filename,
                 color = ElementTheme.colors.textPrimary,
                 maxLines = 2,
-                style = ElementTheme.typography.fontBodyLgRegular,
+                style = ElementTheme.typography.fontBodyMdRegular,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
                 text = fileExtensionAndSize,
                 color = ElementTheme.colors.textSecondary,
-                style = ElementTheme.typography.fontBodySmRegular,
+                style = ElementTheme.typography.fontBodyXsRegular,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 onTextLayout = if (hasCaption) {
