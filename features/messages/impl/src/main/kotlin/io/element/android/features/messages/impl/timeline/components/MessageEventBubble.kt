@@ -43,14 +43,14 @@ import io.element.android.libraries.designsystem.preview.PreviewsDayNight
 import io.element.android.libraries.designsystem.text.toDp
 import io.element.android.libraries.designsystem.text.toPx
 import io.element.android.libraries.designsystem.theme.components.Text
-import io.element.android.libraries.designsystem.theme.messageFromMeBackground
-import io.element.android.libraries.designsystem.theme.messageFromOtherBackground
+import io.element.android.libraries.designsystem.theme.hbr.HbrCoreColors
+import io.element.android.libraries.designsystem.theme.hbr.HbrCoreDimensions
 import io.element.android.libraries.testtags.TestTags
 import io.element.android.libraries.testtags.testTag
 import io.element.android.libraries.ui.utils.a11y.isTalkbackActive
 import io.element.android.libraries.ui.utils.graphics.drawInLayer
 
-private val BUBBLE_RADIUS = 12.dp
+private val BUBBLE_RADIUS = HbrCoreDimensions.MessageCornerRadius
 private val avatarRadius = AvatarSize.TimelineSender.dp / 2
 
 private val MIN_BUBBLE_WIDTH = 80.dp
@@ -167,13 +167,13 @@ object MessageEventBubbleDefaults {
     }
 
     @Composable
-    fun backgroundBubbleColor(isMine: Boolean): Color {
-        return if (isMine) {
-            ElementTheme.colors.messageFromMeBackground
-        } else {
-            ElementTheme.colors.messageFromOtherBackground
-        }
+fun backgroundBubbleColor(isMine: Boolean): Color {
+    return if (isMine) {
+        HbrCoreColors.OutgoingMessage
+    } else {
+        HbrCoreColors.IncomingMessage
     }
+}
 
     // Design says: The maximum width of a bubble is still 3/4 of the screen width. But try with 78% now.
     const val BUBBLE_WIDTH_RATIO = 0.78f
