@@ -25,6 +25,7 @@ import io.element.android.libraries.core.meta.BuildType
 import io.element.android.libraries.featureflag.api.FeatureFlagService
 import io.element.android.libraries.featureflag.api.FeatureFlags
 import io.element.android.libraries.preferences.api.store.AppPreferencesStore
+import io.element.android.libraries.designsystem.theme.hbr.toHbrCoreDarkColors
 
 val LocalBuildMeta = staticCompositionLocalOf {
     BuildMeta(
@@ -67,6 +68,10 @@ fun ElementThemeApp(
     val theme by remember(isBlackThemeAllowed) {
         appPreferencesStore.getThemeFlow().mapToTheme(allowBlackTheme = isBlackThemeAllowed)
     }.collectAsState(initial = Theme.System)
+    val hbrCompoundDark = remember(compoundDark) {
+        compoundDark.toHbrCoreDarkColors()
+    }
+
     LaunchedEffect(theme) {
         AppCompatDelegate.setDefaultNightMode(
             when (theme) {
@@ -83,7 +88,7 @@ fun ElementThemeApp(
             theme = theme,
             content = content,
             compoundLight = compoundLight,
-            compoundDark = compoundDark,
+            compoundDark = hbrCompoundDark,
         )
     }
 }
