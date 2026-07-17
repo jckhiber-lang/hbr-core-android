@@ -9,6 +9,7 @@
 package io.element.android.features.messages.impl.actionlist
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -28,7 +29,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -39,6 +40,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -109,7 +111,8 @@ fun ActionListView(
     onVerifiedUserSendFailureClick: (TimelineItem.Event) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val sheetState = rememberModalBottomSheetState()
+    // HBR CORE: message action sheet
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val coroutineScope = rememberCoroutineScope()
     val targetItem = (state.target as? ActionListState.Target.Success)?.event
 
@@ -167,6 +170,7 @@ fun ActionListView(
                 modifier = Modifier
                     .navigationBarsPadding()
                     .imePadding()
+                    .padding(bottom = 12.dp)
             )
         }
     }
@@ -240,9 +244,12 @@ private fun ActionListViewContent(
                     items = actions,
                 ) { action ->
                     ListItem(
-                        modifier = Modifier.clickable {
-                            onActionClick(action)
-                        },
+                        modifier = Modifier
+                            .padding(horizontal = 12.dp, vertical = 2.dp)
+                            .clip(RoundedCornerShape(14.dp))
+                            .clickable {
+                                onActionClick(action)
+                            },
                         headlineContent = {
                             Text(text = stringResource(id = action.titleRes))
                         },
@@ -359,7 +366,7 @@ private fun EmojiReactionsRow(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.padding(end = 16.dp, top = 16.dp, bottom = 16.dp),
+        modifier = modifier.padding(end = 16.dp, top = 12.dp, bottom = 12.dp),
     ) {
         val backgroundColor = ElementTheme.colors.bgCanvasDefault
 
@@ -475,6 +482,7 @@ private fun EmojiButton(
     } else {
         Color.Transparent
     }
+    val emojiShape = RoundedCornerShape(14.dp)
     val a11yClickLabel = a11yReactionAction(
         emoji = emoji,
         userAlreadyReacted = isHighlighted,
@@ -482,7 +490,13 @@ private fun EmojiButton(
     Box(
         modifier = modifier
             .size(48.dp)
-            .background(backgroundColor, CircleShape)
+            .clip(emojiShape)
+            .background(backgroundColor)
+            .border(
+                width = 1.dp,
+                color = ElementTheme.colors.borderDisabled,
+                shape = emojiShape,
+            )
             .clickable(
                 onClickLabel = a11yClickLabel,
                 onClick = { onClick(emoji) },

@@ -15,11 +15,11 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -58,12 +58,18 @@ fun ModalBottomSheet(
     scrollable: Boolean,
     modifier: Modifier = Modifier,
     sheetState: SheetState = rememberModalBottomSheetState(),
-    shape: Shape = BottomSheetDefaults.ExpandedShape,
-    containerColor: Color = MaterialTheme.colorScheme.surface,
+    // HBR CORE: global modal sheet style
+    shape: Shape = RoundedCornerShape(
+        topStart = 28.dp,
+        topEnd = 28.dp,
+        bottomEnd = 0.dp,
+        bottomStart = 0.dp,
+    ),
+    containerColor: Color = ElementTheme.colors.bgCanvasDefault,
     contentColor: Color = contentColorFor(containerColor),
-    tonalElevation: Dp = if (ElementTheme.isLightTheme) 0.dp else BottomSheetDefaults.Elevation,
-    scrimColor: Color = BottomSheetDefaults.ScrimColor,
-    dragHandle: @Composable (() -> Unit)? = { BottomSheetDefaults.DragHandle() },
+    tonalElevation: Dp = 0.dp,
+    scrimColor: Color = Color.Black.copy(alpha = 0.72f),
+    dragHandle: @Composable (() -> Unit)? = { BottomSheetDragHandle() },
     contentWindowInsets: @Composable () -> WindowInsets = { BottomSheetDefaults.modalWindowInsets },
     content: @Composable ColumnScope.() -> Unit,
 ) {

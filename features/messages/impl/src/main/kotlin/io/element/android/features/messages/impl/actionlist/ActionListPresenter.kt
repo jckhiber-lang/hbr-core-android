@@ -88,7 +88,8 @@ class DefaultActionListPresenter(
 
     private val comparator = TimelineItemActionComparator()
 
-    private val suggestedEmojis = persistentListOf("👍️", "👎️", "🔥", "❤️", "👏")
+    // HBR CORE: branded quick reactions
+    private val suggestedEmojis = persistentListOf("⚡", "🖤", "🔥", "👍️", "✅")
 
     @Composable
     override fun present(): ActionListState {

@@ -9,6 +9,7 @@
 package io.element.android.features.messages.impl.timeline.components.customreaction
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -30,7 +31,8 @@ fun CustomReactionBottomSheet(
     onSelectEmoji: (EventOrTransactionId, Emoji) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val sheetState = rememberModalBottomSheetState()
+    // HBR CORE: safe emoji picker sheet
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val coroutineScope = rememberCoroutineScope()
     val target = state.target as? CustomReactionState.Target.Success
 
@@ -64,7 +66,9 @@ fun CustomReactionBottomSheet(
                 onSelectEmoji = ::onEmojiSelectedDismiss,
                 state = presenter.present(),
                 selectedEmojis = state.selectedEmoji,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .navigationBarsPadding(),
             )
         }
     }

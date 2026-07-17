@@ -13,7 +13,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -24,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import io.element.android.compound.tokens.generated.CompoundIcons
@@ -95,35 +98,37 @@ private fun AttachmentSourcePickerMenu(
     onCreatePollClick: () -> Unit,
     enableTextFormatting: Boolean,
 ) {
+    // HBR CORE: attachment source sheet
     Column(
         modifier = Modifier
             .navigationBarsPadding()
             .imePadding()
+            .padding(horizontal = 12.dp, vertical = 8.dp)
             .verticalScroll(rememberScrollState())
     ) {
         ListItem(
-            modifier = Modifier.clickable { state.eventSink(MessageComposerEvent.PickAttachmentSource.PhotoFromCamera) },
+            modifier = Modifier.clip(RoundedCornerShape(14.dp)).clickable { state.eventSink(MessageComposerEvent.PickAttachmentSource.PhotoFromCamera) },
             leadingContent = ListItemContent.Icon(IconSource.Vector(CompoundIcons.TakePhoto())),
             headlineContent = { Text(stringResource(R.string.screen_room_attachment_source_camera_photo)) },
         )
         ListItem(
-            modifier = Modifier.clickable { state.eventSink(MessageComposerEvent.PickAttachmentSource.VideoFromCamera) },
+            modifier = Modifier.clip(RoundedCornerShape(14.dp)).clickable { state.eventSink(MessageComposerEvent.PickAttachmentSource.VideoFromCamera) },
             leadingContent = ListItemContent.Icon(IconSource.Vector(CompoundIcons.VideoCall())),
             headlineContent = { Text(stringResource(R.string.screen_room_attachment_source_camera_video)) },
         )
         ListItem(
-            modifier = Modifier.clickable { state.eventSink(MessageComposerEvent.PickAttachmentSource.FromGallery) },
+            modifier = Modifier.clip(RoundedCornerShape(14.dp)).clickable { state.eventSink(MessageComposerEvent.PickAttachmentSource.FromGallery) },
             leadingContent = ListItemContent.Icon(IconSource.Vector(CompoundIcons.Image())),
             headlineContent = { Text(stringResource(R.string.screen_room_attachment_source_gallery)) },
         )
         ListItem(
-            modifier = Modifier.clickable { state.eventSink(MessageComposerEvent.PickAttachmentSource.FromFiles) },
+            modifier = Modifier.clip(RoundedCornerShape(14.dp)).clickable { state.eventSink(MessageComposerEvent.PickAttachmentSource.FromFiles) },
             leadingContent = ListItemContent.Icon(IconSource.Vector(CompoundIcons.Attachment())),
             headlineContent = { Text(stringResource(R.string.screen_room_attachment_source_files)) },
         )
         if (state.canShareLocation) {
             ListItem(
-                modifier = Modifier.clickable {
+                modifier = Modifier.clip(RoundedCornerShape(14.dp)).clickable {
                     state.eventSink(MessageComposerEvent.PickAttachmentSource.Location)
                     onSendLocationClick()
                 },
@@ -132,7 +137,7 @@ private fun AttachmentSourcePickerMenu(
             )
         }
         ListItem(
-            modifier = Modifier.clickable {
+            modifier = Modifier.clip(RoundedCornerShape(14.dp)).clickable {
                 state.eventSink(MessageComposerEvent.PickAttachmentSource.Poll)
                 onCreatePollClick()
             },
@@ -141,7 +146,7 @@ private fun AttachmentSourcePickerMenu(
         )
         if (enableTextFormatting) {
             ListItem(
-                modifier = Modifier.clickable { state.eventSink(MessageComposerEvent.ToggleTextFormatting(enabled = true)) },
+                modifier = Modifier.clip(RoundedCornerShape(14.dp)).clickable { state.eventSink(MessageComposerEvent.ToggleTextFormatting(enabled = true)) },
                 leadingContent = ListItemContent.Icon(IconSource.Vector(CompoundIcons.TextFormatting())),
                 headlineContent = { Text(stringResource(R.string.screen_room_attachment_text_formatting)) },
             )

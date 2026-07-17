@@ -41,8 +41,9 @@ fun TimelineItemReactionsLayout(
     expandButton: @Composable () -> Unit,
     addMoreButton: (@Composable () -> Unit)?,
     modifier: Modifier = Modifier,
-    itemSpacing: Dp = 0.dp,
-    rowSpacing: Dp = 0.dp,
+    // HBR CORE: reaction spacing
+    itemSpacing: Dp = 6.dp,
+    rowSpacing: Dp = 6.dp,
     expanded: Boolean = false,
     rowsBeforeCollapsible: Int? = 2,
     reactions: @Composable () -> Unit,
