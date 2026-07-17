@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import io.element.android.compound.tokens.generated.CompoundIcons
 import io.element.android.features.messages.impl.R
 import io.element.android.libraries.androidutils.ui.hideKeyboard
