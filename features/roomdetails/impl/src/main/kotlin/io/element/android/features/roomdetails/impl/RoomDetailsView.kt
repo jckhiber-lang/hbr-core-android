@@ -239,10 +239,13 @@ fun RoomDetailsView(
                 MediaGalleryItem(
                     onClick = openMediaGallery
                 )
-                PinnedMessagesItem(
-                    pinnedMessagesCount = state.pinnedMessagesCount,
-                    onPinnedMessagesClick = onPinnedMessagesClick
-                )
+                // HBR CORE: hide empty pinned section
+                if (state.pinnedMessagesCount == null || state.pinnedMessagesCount > 0) {
+                    PinnedMessagesItem(
+                        pinnedMessagesCount = state.pinnedMessagesCount,
+                        onPinnedMessagesClick = onPinnedMessagesClick
+                    )
+                }
                 PollsItem(
                     openPollHistory = openPollHistory
                 )

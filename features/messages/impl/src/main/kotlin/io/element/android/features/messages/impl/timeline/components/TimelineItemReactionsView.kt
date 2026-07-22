@@ -47,6 +47,7 @@ fun TimelineItemReactionsView(
             hideFromAccessibility()
         },
         reactions = reactionsState.reactions,
+        highlightedCount = reactionsState.highlightedKeys.size,
         userCanSendReaction = userCanSendReaction,
         expanded = expanded,
         isOutgoing = isOutgoing,
@@ -60,6 +61,7 @@ fun TimelineItemReactionsView(
 @Composable
 private fun TimelineItemReactionsView(
     reactions: ImmutableList<AggregatedReaction>,
+    highlightedCount: Int,
     userCanSendReaction: Boolean,
     isOutgoing: Boolean,
     expanded: Boolean,
@@ -78,12 +80,18 @@ private fun TimelineItemReactionsView(
         else -> LayoutDirection.Ltr
     }
 
+    // HBR CORE: maximum three personal reactions per message
+    val canAddReaction = userCanSendReaction && highlightedCount < 3
+    val visibleReactions = if (expanded) reactions else reactions.take(3)
+    val hiddenReactionCount = (reactions.size - 3).coerceAtLeast(0)
+
     CompositionLocalProvider(LocalLayoutDirection provides reactionsLayoutDirection) {
         TimelineItemReactionsLayout(
             modifier = modifier,
             itemSpacing = 4.dp,
             rowSpacing = 4.dp,
             expanded = expanded,
+            rowsBeforeCollapsible = null,
             expandButton = {
                 MessagesReactionButton(
                     content = MessagesReactionsButtonContent.Text(
@@ -99,27 +107,50 @@ private fun TimelineItemReactionsView(
                     onLongClick = {}
                 )
             },
-            addMoreButton = if (userCanSendReaction) {
-                {
-                    CompositionLocalProvider(LocalLayoutDirection provides currentLayout) {
-                        MessagesReactionButton(
-                            content = MessagesReactionsButtonContent.Icon(CompoundDrawables.ic_compound_reaction_add),
-                            onClick = onMoreReactionsClick,
-                            onLongClick = {}
-                        )
+            addMoreButton = when {
+                !expanded && hiddenReactionCount > 0 -> {
+                    {
+                        CompositionLocalProvider(LocalLayoutDirection provides currentLayout) {
+                            MessagesReactionButton(
+                                content = MessagesReactionsButtonContent.Text(text = "+$hiddenReactionCount"),
+                                onClick = onToggleExpandClick,
+                                onLongClick = {}
+                            )
+                        }
                     }
                 }
-            } else {
-                null
+                expanded && hiddenReactionCount > 0 -> {
+                    {
+                        CompositionLocalProvider(LocalLayoutDirection provides currentLayout) {
+                            MessagesReactionButton(
+                                content = MessagesReactionsButtonContent.Text(text = "−"),
+                                onClick = onToggleExpandClick,
+                                onLongClick = {}
+                            )
+                        }
+                    }
+                }
+                canAddReaction -> {
+                    {
+                        CompositionLocalProvider(LocalLayoutDirection provides currentLayout) {
+                            MessagesReactionButton(
+                                content = MessagesReactionsButtonContent.Icon(CompoundDrawables.ic_compound_reaction_add),
+                                onClick = onMoreReactionsClick,
+                                onLongClick = {}
+                            )
+                        }
+                    }
+                }
+                else -> null
             },
             reactions = {
-                reactions.forEach { reaction ->
+                visibleReactions.forEach { reaction ->
                     CompositionLocalProvider(LocalLayoutDirection provides currentLayout) {
                         MessagesReactionButton(
                             content = MessagesReactionsButtonContent.Reaction(reaction = reaction),
                             onClick = {
                                 // Always allow user to redact their own reactions
-                                if (reaction.isHighlighted || userCanSendReaction) {
+                                if (reaction.isHighlighted || canAddReaction) {
                                     onReactionClick(reaction.key)
                                 }
                             },

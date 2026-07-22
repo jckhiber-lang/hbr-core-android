@@ -119,10 +119,11 @@ private fun ReadReceiptsRow(
     content: @Composable () -> Unit = {},
 ) {
     // HBR CORE: compact status row
+    // HBR CORE: tighter attached status row
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(20.dp)
+            .height(14.dp)
             .padding(horizontal = 14.dp),
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,

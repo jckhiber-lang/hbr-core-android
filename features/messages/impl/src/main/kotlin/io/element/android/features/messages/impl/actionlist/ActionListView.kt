@@ -193,7 +193,10 @@ private fun ActionListViewContent(
         }
 
         is ActionListState.Target.Success -> {
-            val actions = target.actions
+            // HBR CORE: focused primary message actions
+            val actions = target.actions.filterNot {
+                it == TimelineItemAction.CopyLink
+            }
             LazyColumn(
                 modifier = modifier.fillMaxWidth()
             ) {
@@ -233,6 +236,7 @@ private fun ActionListViewContent(
                         EmojiReactionsRow(
                             recentEmojis = target.recentEmojis,
                             highlightedEmojis = target.event.reactionsState.highlightedKeys,
+                            selectionLimitReached = target.event.reactionsState.highlightedKeys.size >= 3,
                             onEmojiReactionClick = onEmojiReactionClick,
                             onCustomReactionClick = onCustomReactionClick,
                             modifier = Modifier.fillMaxWidth(),
@@ -361,10 +365,12 @@ private val emojiRippleRadius = 24.dp
 private fun EmojiReactionsRow(
     recentEmojis: ImmutableList<String>,
     highlightedEmojis: ImmutableList<String>,
+    selectionLimitReached: Boolean,
     onEmojiReactionClick: (String) -> Unit,
     onCustomReactionClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    // HBR CORE: enforce three personal reactions in action sheet
     Row(
         modifier = modifier.padding(end = 16.dp, top = 12.dp, bottom = 12.dp),
     ) {
@@ -402,6 +408,7 @@ private fun EmojiReactionsRow(
                         },
                     emoji = emoji,
                     isHighlighted = isHighlighted,
+                    enabled = isHighlighted || !selectionLimitReached,
                     onClick = onEmojiReactionClick
                 )
             }
@@ -414,11 +421,15 @@ private fun EmojiReactionsRow(
             Icon(
                 imageVector = CompoundIcons.ReactionAdd(),
                 contentDescription = stringResource(id = CommonStrings.a11y_react_with_other_emojis),
-                tint = ElementTheme.colors.iconSecondary,
+                tint = if (selectionLimitReached) {
+                    ElementTheme.colors.iconQuaternary
+                } else {
+                    ElementTheme.colors.iconSecondary
+                },
                 modifier = Modifier
                     .size(24.dp)
                     .clickable(
-                        enabled = true,
+                        enabled = !selectionLimitReached,
                         onClick = onCustomReactionClick,
                         indication = ripple(bounded = true, radius = emojiRippleRadius),
                         interactionSource = remember { MutableInteractionSource() }
@@ -474,6 +485,7 @@ private fun VerifiedUserSendFailureView(
 private fun EmojiButton(
     emoji: String,
     isHighlighted: Boolean,
+    enabled: Boolean,
     onClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -483,10 +495,10 @@ private fun EmojiButton(
     } else {
         Color.Transparent
     }
-    val borderColor = if (isHighlighted) {
-        ElementTheme.colors.iconSuccessPrimary
-    } else {
-        ElementTheme.colors.borderDisabled
+    val borderColor = when {
+        isHighlighted -> ElementTheme.colors.iconSuccessPrimary
+        enabled -> ElementTheme.colors.borderDisabled
+        else -> Color.Transparent
     }
     val emojiShape = RoundedCornerShape(14.dp)
     val a11yClickLabel = a11yReactionAction(
@@ -504,6 +516,7 @@ private fun EmojiButton(
                 shape = emojiShape,
             )
             .clickable(
+                enabled = enabled,
                 onClickLabel = a11yClickLabel,
                 onClick = { onClick(emoji) },
                 indication = ripple(bounded = true, radius = emojiRippleRadius),

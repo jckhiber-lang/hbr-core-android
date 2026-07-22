@@ -9,7 +9,6 @@
 package io.element.android.libraries.matrix.ui.messages.reply
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -85,21 +84,13 @@ private fun ReplyToReadyContent(
     modifier: Modifier = Modifier,
 ) {
     val paddings = if (metadata is InReplyToMetadata.Thumbnail) {
-        PaddingValues(end = 10.dp, top = 6.dp, bottom = 6.dp)
+        PaddingValues(end = 8.dp, top = 4.dp, bottom = 4.dp)
     } else {
-        PaddingValues(horizontal = 10.dp, vertical = 7.dp)
+        PaddingValues(horizontal = 8.dp, vertical = 4.dp)
     }
-    val replyShape = RoundedCornerShape(10.dp)
     Row(
         modifier
-            // HBR CORE: unified reply quote surface
-            .clip(replyShape)
-            .background(ElementTheme.colors.bgSubtlePrimary)
-            .border(
-                width = 1.dp,
-                color = ElementTheme.colors.borderDisabled,
-                shape = replyShape,
-            )
+            // HBR CORE: lightweight reply quote
             .padding(paddings)
     ) {
         if (metadata is InReplyToMetadata.Thumbnail) {

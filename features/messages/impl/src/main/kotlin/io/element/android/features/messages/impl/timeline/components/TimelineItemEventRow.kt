@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -307,7 +308,10 @@ fun TimelineItemEventRow(
                 receipts = event.readReceiptState.receipts,
             ),
             onReadReceiptsClick = { onReadReceiptClick(event) },
-            modifier = Modifier.padding(top = 4.dp)
+            // HBR CORE: status attached to message bubble
+            modifier = Modifier
+                .offset(y = (-8).dp)
+                .padding(end = 10.dp)
         )
     }
 }
